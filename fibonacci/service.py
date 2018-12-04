@@ -1,4 +1,15 @@
-from .utils import local_cache, redis_cache
+from .utils import local_cache, redis_cache, caches
+
+
+def check_redis_health():
+    r = caches['redis']
+    is_healthy = r.ping()
+
+    return {
+        'redis': {
+            'is_healthy': True,
+        },
+    }
 
 
 @local_cache

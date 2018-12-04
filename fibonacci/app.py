@@ -1,6 +1,6 @@
 import json
 from flask import Flask
-from .service import generate_fibonacci_sequence
+from .service import generate_fibonacci_sequence, check_redis_health
 
 
 app = Flask(__name__)
@@ -8,7 +8,17 @@ app = Flask(__name__)
 
 @app.route('/health')
 def health_check():
-    return json.dumps({'status': 'OK'})
+    try:
+        redis_state = check_redis_health()
+    except Exception as e:
+        redis_state = {
+            'redis': {
+                'is_healthy': False,
+                'error_info': str(e),
+            }
+        }
+
+    return json.dumps(redis_state)
 
 
 @app.route('/fib/<int:start_idx>/<int:end_idx>')
