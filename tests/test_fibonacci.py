@@ -1,5 +1,5 @@
 import pytest
-from fibonacci.app import f
+from fibonacci.service import generate_fibonacci_sequence
 
 
 @pytest.mark.parametrize(('start', 'end', 'expected'), [
@@ -8,7 +8,7 @@ from fibonacci.app import f
     (0, 7, [0, 1, 1, 2, 3, 5, 8, 13])
 ])
 def test_success(start, end, expected):
-    assert f(start, end) == expected
+    assert generate_fibonacci_sequence(start, end) == expected
 
 @pytest.mark.parametrize(('start', 'end'), [
     (1, 0),
@@ -17,4 +17,4 @@ def test_success(start, end, expected):
 ])
 def test_wrong_input(start, end):
     with pytest.raises(AssertionError):
-        f(start, end)
+        generate_fibonacci_sequence(start, end)
