@@ -8,6 +8,8 @@ authors = ["Nikita Antonenkov <krigar1184@gmail.com>"]
 python = "^3.7"
 flask = "^1.0"
 python-dotenv = "^0.9.1"
+coverage = "^4.5"
+codecov = "^2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
