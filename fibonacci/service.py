@@ -1,4 +1,4 @@
-from .utils import local_cache
+from .utils import local_cache, redis_cache
 
 
 @local_cache
@@ -12,6 +12,7 @@ def nth_fibonacci_number(n):  # TODO more efficient algorithm needed
     return nth_fibonacci_number(n - 1) + nth_fibonacci_number(n - 2)
 
 
+@redis_cache
 def generate_fibonacci_sequence(start: int, end: int) -> list:
     assert isinstance(start, int), 'start should be integer'
     assert isinstance(end, int), 'end should be integer'

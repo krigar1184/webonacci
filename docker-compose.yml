@@ -9,3 +9,7 @@ services:
       - "${FLASK_PORT}:${FLASK_PORT}"
     volumes:
       - ./:/usr/src/app
+  redis:
+    image: redis:alpine
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"

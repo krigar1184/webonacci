@@ -1,12 +1,5 @@
 services: 
   - docker
 
-before_script:
-  - docker build --target test -t webonacci_test:latest .
-
 script:
-  - docker run -t webonacci_test:latest pytest
-
-after_success:
-  - docker run -t webonacci_test:latest codecov
-  - docker-compose version
+  - make test
