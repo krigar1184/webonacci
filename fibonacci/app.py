@@ -1,3 +1,4 @@
+import json
 from flask import Flask
 
 
@@ -15,6 +16,8 @@ def nth_fibonacci_number(n):  # TODO more efficient algorithm needed
 
 
 def f(start: int, end: int) -> list:
+    assert isinstance(start, int), 'start should be integer'
+    assert isinstance(end, int), 'end should be integer'
     assert start >= 0, 'start should be less than or equal to zero'
     assert start < end, 'start index should be less than end index'
 
@@ -36,9 +39,9 @@ def f(start: int, end: int) -> list:
 
 @app.route('/health')
 def health_check():
-    return 'OK'
+    return json.dumps({'status': 'OK'})
 
 
 @app.route('/fib/<int:start_idx>/<int:end_idx>')
 def fib(start_idx, end_idx):
-    return f'Result: {fibonacci(start_idx, end_idx)}'
+    return json.dumps({'result': f(start_idx, end_idx)})
