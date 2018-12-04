@@ -1,0 +1,11 @@
+services: 
+  - docker
+
+before_script:
+  - docker build -t webonacci_test:latest .
+
+script:
+  - docker run -t webonacci_test:latest pytest
+
+after_success:
+  - docker run -t webonacci_test:latest codecov
