@@ -6,4 +6,4 @@ app = Flask(__name__)
 
 @app.route('/health')
 def health_check():
-    return 'healcheck'
+    return 'healthcheck'

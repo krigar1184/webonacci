@@ -14,6 +14,4 @@ COPY pyproject.toml $PROJECT_ROOT
 RUN $HOME/.poetry/bin/poetry config settings.virtualenvs.create false
 RUN $HOME/.poetry/bin/poetry install
 
-COPY . /usr/src/app
-
-CMD flask run --host 0.0.0.0 --port 5000
+CMD flask run --host 0.0.0.0 --port 5000 --debugger

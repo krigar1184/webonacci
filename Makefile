@@ -4,8 +4,8 @@ build:
 run: build
 	docker-compose up -d
 
-down:
-	docker-compose stop
+stop:
+	docker-compose down
 
 bash:
 	docker-compose exec app bash
