@@ -9,3 +9,4 @@ script:
 
 after_success:
   - docker run -t webonacci_test:latest codecov
+  - docker-compose version

@@ -1,3 +1,7 @@
+from .utils import local_cache
+
+
+@local_cache
 def nth_fibonacci_number(n):  # TODO more efficient algorithm needed
     if n == 0:
         return 0
