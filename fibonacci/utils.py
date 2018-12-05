@@ -12,7 +12,7 @@ caches = {
 
 
 def local_cache(f, key_prefix=None):
-    cache = {}
+    cache = caches['local']
 
     def inner(*args, **kwargs):
         nonlocal key_prefix
@@ -22,7 +22,7 @@ def local_cache(f, key_prefix=None):
             key_prefix,
             hash(tuple([f.__name__] + list(args) + list(kwargs.items()))))
 
-        if not key in cache:
+        if key not in cache:
             result = f(*args, **kwargs)
             cache[key] = result
 

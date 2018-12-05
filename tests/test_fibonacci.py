@@ -1,9 +1,21 @@
 import os
-import json
 import requests
-from unittest import mock
 import pytest
+from mockredis import mock_redis_client
 from fibonacci.service import generate_fibonacci_sequence, check_redis_health
+
+
+@pytest.fixture
+def is_healthy(request):
+    return request.param
+
+
+@pytest.fixture
+def redis_store_mock(request, is_healthy):
+    client = mock_redis_client()
+    client.ping = lambda: is_healthy
+
+    return client
 
 
 @pytest.mark.parametrize(('start', 'end', 'expected'), [
@@ -13,6 +25,7 @@ from fibonacci.service import generate_fibonacci_sequence, check_redis_health
 ])
 def test_sequence_generation_success(start, end, expected):
     assert generate_fibonacci_sequence(start, end) == expected
+
 
 @pytest.mark.parametrize(('start', 'end'), [
     (1, 0),
@@ -24,19 +37,6 @@ def test_sequence_generation_fail(start, end):
         generate_fibonacci_sequence(start, end)
 
 
-def test_check_health_success():
-    app_host = os.environ.get('FLASK_HOST')
-    app_port = os.environ.get('FLASK_PORT')
-
-    response = requests.get(f'http://{app_host}:{app_port}/health')
-    assert response.status_code == 200
-
-    data = json.loads(response.content)
-    assert data['redis']['is_healthy'] is True
-
-#
-#def test_check_health_fail():
-#    app_host = 'nonexisting.local'
-#    app_port = os.environ.get('FLASK_PORT')
-#    response = requests.get(f'http://{app_host}:{app_port}/health')
-#    assert response.status_code == 200
+@pytest.mark.parametrize('is_healthy', [True, False], indirect=['is_healthy'])
+def test_check_health_success(redis_store_mock, is_healthy):
+    assert check_redis_health(redis_store_mock)['is_healthy'] is is_healthy

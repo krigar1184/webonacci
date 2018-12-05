@@ -1,19 +1,14 @@
-from .utils import local_cache, redis_cache, caches
+from .utils import local_cache, redis_cache
 
 
-def check_redis_health():
-    r = caches['redis']
-    is_healthy = r.ping()
+def check_redis_health(redis_storage):
+    is_healthy = redis_storage.ping()
 
-    return {
-        'redis': {
-            'is_healthy': True,
-        },
-    }
+    return {'is_healthy': is_healthy}
 
 
 @local_cache
-def nth_fibonacci_number(n):  # TODO more efficient algorithm needed
+def nth_fibonacci_number(n: int):
     if n == 0:
         return 0
 
